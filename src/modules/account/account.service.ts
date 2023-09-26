@@ -21,7 +21,7 @@ export class AccountService {
         email: data.email,
       });
       if (checkEmail) {
-        return HttpResponse(201, ErrorMessage.EMAIL_HAS_BEEN_USED);
+        return HttpResponse(200, ErrorMessage.EMAIL_HAS_BEEN_USED);
       } else {
         await this.accountRepository.save({
           username: data.username,

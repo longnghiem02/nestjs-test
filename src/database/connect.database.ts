@@ -6,15 +6,19 @@ import { databaseConfig } from 'src/configs/app.config';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: databaseConfig.host,
-      port: Number(databaseConfig.host),
-      username: databaseConfig.username,
-      password: databaseConfig.password,
-      database: databaseConfig.database,
-      entities: [__dirname + '/../**/*.model{.ts,.js}'],
-      synchronize: Boolean(databaseConfig.synchronize),
+    TypeOrmModule.forRootAsync({
+      useFactory: async () => {
+        return {
+          type: 'postgres',
+          host: databaseConfig.host,
+          port: Number(databaseConfig.host),
+          username: databaseConfig.username,
+          password: databaseConfig.password,
+          database: databaseConfig.database,
+          entities: [__dirname + '/../**/*.model{.ts,.js}'],
+          synchronize: Boolean(databaseConfig.synchronize),
+        };
+      },
     }),
   ],
 })

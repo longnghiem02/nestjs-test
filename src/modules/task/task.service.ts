@@ -7,12 +7,17 @@ import {
   ErrorMessage,
 } from 'src/utils/constants/message.constants';
 import { Task } from './model/task.model';
+import { NotificationService } from 'src/queue/notification/notification.service';
+import { Account } from '../account/model/account.model';
 
 @Injectable()
 export class TaskService {
   constructor(
     @InjectRepository(Task)
     private taskRepository: Repository<Task>,
+    @InjectRepository(Account)
+    private accountRepository: Repository<Account>,
+    private notificationService: NotificationService,
   ) {}
 
   handleCreateTask = async (data: any): Promise<HttpResponse> => {
@@ -31,14 +36,24 @@ export class TaskService {
     try {
       const response = await this.taskRepository.findOneBy({ id: data.id });
       if (response) {
-        await this.taskRepository.save({
-          ...response,
-          ...data,
-          updatedAt: new Date(),
+        const check = await this.accountRepository.findOneBy({
+          id: data.assigned_id,
         });
-        return HttpResponse(201, CommonMessage.ASSIGN_TASK_SUCCCEED);
+        if (check) {
+          this.notificationService.sendNotification({
+            task: response.name,
+            assigned_member: check.username,
+          });
+          await this.taskRepository.save({
+            ...response,
+            ...data,
+            updatedAt: new Date(),
+          });
+          return HttpResponse(201, CommonMessage.ASSIGN_TASK_SUCCCEED);
+        }
+        return HttpResponse(404, ErrorMessage.ACCOUNT_NOT_FOUND);
       }
-      return HttpResponse(201, ErrorMessage.TASK_NOT_FOUND);
+      return HttpResponse(404, ErrorMessage.TASK_NOT_FOUND);
     } catch (error) {
       return HttpResponse(500, error);
     }

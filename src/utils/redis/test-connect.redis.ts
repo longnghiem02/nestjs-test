@@ -4,16 +4,19 @@ import { Queue } from 'bull';
 
 @Injectable()
 export class TestConnectRedis implements OnModuleInit {
-  constructor(@InjectQueue('myQueue') private readonly myQueue: Queue) {}
+  constructor(
+    @InjectQueue('testConnectQueue')
+    private readonly testConnectQueue: Queue,
+  ) {}
 
   async onModuleInit() {
     try {
-      await this.myQueue.client.ping();
+      await this.testConnectQueue.client.ping();
       console.log('Redis is connected!');
     } catch (error) {
       console.error('Failed to connect to Redis:', error);
     } finally {
-      await this.myQueue.close();
+      await this.testConnectQueue.close();
     }
   }
 }

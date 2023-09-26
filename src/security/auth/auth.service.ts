@@ -19,7 +19,7 @@ export class AuthService {
       email: data.email,
     });
     if (!account) {
-      return HttpResponse(200, ErrorMessage.ACCOUNT_NOT_FOUND);
+      return HttpResponse(404, ErrorMessage.ACCOUNT_NOT_FOUND);
     }
     if (account?.password !== data.password) {
       return HttpResponse(200, ErrorMessage.WRONG_PASSWORD);

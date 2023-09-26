@@ -11,7 +11,7 @@ import { TestConnectRedis } from './test-connect.redis';
         port: Number(redisConfig.PORT),
       },
     }),
-    BullModule.registerQueue({ name: 'myQueue' }),
+    BullModule.registerQueue({ name: 'testConnectQueue' }),
   ],
   providers: [TestConnectRedis],
 })
