@@ -11,6 +11,7 @@ import { AccountModule } from './modules/account/account.module';
 import { TaskModule } from './modules/task/task.module';
 import { ConnectRedisModule } from './utils/redis/connect.redis';
 import { UploadModule } from './modules/upload/upload.module';
+import { CloudflareModule } from './cloudflare/cloudflare.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { UploadModule } from './modules/upload/upload.module';
     AccountModule,
     TaskModule,
     UploadModule,
+    CloudflareModule,
   ],
   controllers: [AuthController, AppController],
   providers: [AuthService, AppService],

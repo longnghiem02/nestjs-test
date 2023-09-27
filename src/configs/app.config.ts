@@ -22,3 +22,13 @@ export const jwtConfig = {
   secret: process.env.JWT_SECRET,
   expiresIn: process.env.JWT_EXPIRES_IN,
 };
+
+export const cloudflareConfig = {
+  auth_email: process.env.CF_AUTH_EMAIL,
+  auth_key: process.env.CF_AUTH_KEY,
+  region: process.env.CF_REGION,
+  account: process.env.CF_ACCOUNT_ID,
+  access_key_id: process.env.CF_ACCESS_KEY_ID,
+  secret_access_key: process.env.CF_SECRET_ACCESS_KEY,
+  bucket: process.env.CF_BUCKET,
+};
