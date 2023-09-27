@@ -23,4 +23,10 @@ export class Account extends AbstractEntity {
     nullable: false,
   })
   role: string;
+
+  @Column({
+    nullable: true,
+    type: 'bytea',
+  })
+  image: Buffer;
 }

@@ -7,10 +7,12 @@ import {
   HttpStatus,
   Request,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDTO } from 'src/modules/account/dto/login.dto';
 import { AuthGuard } from './auth.guard';
+import { UpdateAccountDTO } from 'src/modules/account/dto/update-account.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -23,8 +25,17 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
+  @Put('update-account')
+  updateAccount(
+    @Request() req: any,
+    @Body() updateAccountDTO: UpdateAccountDTO,
+  ) {
+    return this.authService.handleUpdateAccount(req.account, updateAccountDTO);
+  }
+
+  @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Request() req: any) {
-    return req.account;
+    return this.authService.handleGetProfile(req.account);
   }
 }
